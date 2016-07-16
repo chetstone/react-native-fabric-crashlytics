@@ -31,6 +31,7 @@ function init(smap) {
   function errorHandler(e) {
     StackTrace.fromError(e).then((x)=>Crashlytics.recordCustomExceptionName(e.message, e.message, x.map(row=>{
       const loc = mapper(row);
+      row.source = row.source.replace(/file:\/.*\//, ''); // trim path
       return {
         fileName: loc.source || row.fileName,
         columnNumber: loc.column || row.columnNumber,
